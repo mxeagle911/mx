@@ -2,14 +2,11 @@
 
 echo ">>>ShadowsocksR install start"
 echo "installing git..."
-yum install git
+#yum install git
 
-if [ $? -ne 0 ]; then
-	exit 1
-fi
-
-echo "clone from github..."
-git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git /
+#echo "clone from github..."
+cd /
+git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
 
 if [ $? -eq 0 ]; then
 	#shadowsocks
