@@ -1,12 +1,16 @@
 #!/bin/bash
 
 echo ">>>ShadowsocksR install start"
-echo "installing git..."
-#yum install git
+echo "yum install git..."
+yum install git
 
-#echo "clone from github..."
-#cd /
-#git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
+if [ $? -ne 0 ]; then
+	exit 1
+fi
+
+echo "clone from github..."
+cd /
+git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
 
 if [ $? -eq 0 ]; then
 	#shadowsocks.json
@@ -25,7 +29,7 @@ if [ $? -eq 0 ]; then
         "8083":"ss11501"
     },
     "timeout":300,
-    "method":"aes-256-cfb",
+    "method":"rc4-md5",
     "protocol": "auth_sha1_v4_compatible",
     "protocol_param": "4",
     "obfs": "http_simple_compatible",
@@ -70,7 +74,7 @@ EOF
 	echo "Shadowsocks starting..."
 	systemctl enable shadowsocks.service && systemctl start shadowsocks.service
 	if [ $? -eq 0 ]; then
-		echo "successed! shadowsocks is running!"
+		echo "successed! shadowsocksR is running!"
 	fi
 else
 	exit 1
