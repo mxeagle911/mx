@@ -18,11 +18,7 @@ if [ $? -eq 0 ]; then
 	if [ $? -eq 0 ]; then
 		#config.json
 		echo "setting config file..."
-		
-		if [ ! -d /etc/shadowsocks ];then
-			mkdir -p /etc/shadowsocks
-		fi
-		
+
 		if [ ! -e /etc/shadowsocks.json ];then
 			cat > /etc/shadowsocks.json << EOF
 {
