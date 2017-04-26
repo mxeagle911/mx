@@ -5,19 +5,14 @@ echo "installing git..."
 #yum install git
 
 #echo "clone from github..."
-cd /
-git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
+#cd /
+#git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
 
 if [ $? -eq 0 ]; then
-	#shadowsocks
-	echo "config shadowsocks..."
-	pip install shadowsocks
-	if [ $? -eq 0 ]; then
-		#config.json
-		echo "setting config file..."
-
-		if [ ! -e /etc/shadowsocks.json ];then
-			cat > /etc/shadowsocks.json << EOF
+	#shadowsocks.json
+	echo "setting config file..."
+	if [ ! -e /etc/shadowsocks.json ];then
+		cat > /etc/shadowsocks.json << EOF
 {
     "server":"0.0.0.0",
     "server_ipv6": "[::]",
@@ -41,12 +36,12 @@ if [ $? -eq 0 ]; then
     "workers": 1
 }
 EOF
-		fi
-		
-		#shadowsocks.service
-		echo "make service file..."
-		if [ ! -e /etc/systemd/system/shadowsocks.service ];then
-			cat > /etc/systemd/system/shadowsocks.service << EOF
+	fi
+
+	#shadowsocks.service
+	echo "make service file..."
+	if [ ! -e /etc/systemd/system/shadowsocks.service ];then
+		cat > /etc/systemd/system/shadowsocks.service << EOF
 [Unit]
 Description=ShadowsocksR server
 After=network.target
@@ -64,21 +59,18 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-		fi
-		
-		#add port
-		echo "adding port..."
-		firewall-cmd --permanent --add-port=8080-8083/tcp
-		firewall-cmd --reload
-		
-		#start && start on boot
-		echo "Shadowsocks starting..."
-		systemctl enable shadowsocks.service && systemctl start shadowsocks.service
-		if [ $? -eq 0 ]; then
-			echo "successed! shadowsocks is running!"
-		fi
-	else
-		exit 1
+	fi
+
+	#add port
+	echo "adding port..."
+	firewall-cmd --permanent --add-port=8080-8083/tcp
+	firewall-cmd --reload
+
+	#start && start on boot
+	echo "Shadowsocks starting..."
+	systemctl enable shadowsocks.service && systemctl start shadowsocks.service
+	if [ $? -eq 0 ]; then
+		echo "successed! shadowsocks is running!"
 	fi
 else
 	exit 1
